@@ -15,16 +15,17 @@ end
 
 get '/songs/:id' do
   @song = Song.find params[:id]
+  @other_songs = Song.where(author: @song.author).where.not(id: @song.id)
   erb :'songs/show'
 end
 
 post '/songs' do 
-  @song = Song.new(
+  song = Song.new(
     title: params[:title],
     author: params[:author],
     url: params[:url]
   )
-  if @song.save 
+  if song.save!
     redirect '/songs'
   else 
     erb :'songs/new'

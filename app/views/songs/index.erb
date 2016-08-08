@@ -4,8 +4,14 @@
 <% @songs.each do |song| %>
   <div class="song">
     <h3><%= song.title %></h3>
-    <p><% if song.url %> <a href="<%= song.url %>"><%= song.url %></a><% end %></p>
-    <h3><small>(by: <%= song.author %>)</small> </h3>
+    <% if song.url %>
+      <p>
+        <a href="<%= song.url %>">
+          <%= song.url %>
+        </a>
+      </p>
+    <% end %>
+    <h3><small><%= song.author %></small></h3>
     <p><% if song.created_at %><%= song.created_at %><% end %></p>
   </div>
 <% end %>
