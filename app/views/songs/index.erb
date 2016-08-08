@@ -1,0 +1,6 @@
+<h1>Song Wall</h1>
+<hr/>
+
+<% @songs.each do |song| %>
+  <p><%= song.title %> by <%= song.author %></p>
+<% end %>
