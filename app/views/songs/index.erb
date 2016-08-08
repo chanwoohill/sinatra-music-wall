@@ -5,11 +5,8 @@
   <div class="song">
     <h3><%= song.title %></h3>
     <p><% if song.url %> <a href="<%= song.url %>"><%= song.url %></a><% end %></p>
-    <h3>
-      <a href:="/songs/<%= song.id %>">
-        <small>(by: <%= song.author %>)</small>
-      </a> 
-    </h3>
+    <h3><small>(by: <%= song.author %>)</small> </h3>
+    <p><% if song.created_at %><%= song.created_at %><% end %></p>
   </div>
 <% end %>
 
