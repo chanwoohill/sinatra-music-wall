@@ -12,7 +12,11 @@
       </p>
     <% end %>
     <h3><small><%= song.author %></small></h3>
-    <p><% if song.created_at %><%= song.created_at %><% end %></p>
+    <% if song.created_at %>
+      <p>
+        <%= song.created_at %> 
+      </p>
+    <% end %>
   </div>
 <% end %>
 

@@ -20,7 +20,7 @@
   <% if @other_songs.exists? %>
     <% @other_songs.each do |song| %>
       <h3>Other songs from this author</h3>
-      <p><%= song.title %></p>
+      <p><a href="/songs/<%= song.id %>"><%= song.title %></a></p>
     <% end %>
   <% end %>
 <hr/> 
