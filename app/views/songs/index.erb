@@ -2,7 +2,16 @@
 <hr/>
 
 <% @songs.each do |song| %>
-  <p><%= song.title %> by <%= song.author %></p>
+  <div class="song">
+    <h3><%= song.title %></h3>
+    <p><% if song.url %> <a href="<%= song.url %>"><%= song.url %></a><% end %></p>
+    <h3>
+      <a href:="/songs/<%= song.id %>">
+        <small>(by: <%= song.author %>)</small>
+      </a> 
+    </h3>
+  </div>
 <% end %>
 
 <a href='/songs/new'>Add a New Song</a>
+
