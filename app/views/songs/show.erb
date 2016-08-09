@@ -8,9 +8,9 @@
     Author: <%= @song.author %>
   </p>
   
-  <p>
-    <%= @song.url %>
-  </p>
+  <% if @song.url.length > 0 %>
+    <p>Url: <%= @song.url %></p>
+  <% end %> 
   
   <% if @song.created_at %>
    <p>Created at: <%= @song.created_at %></p>

@@ -18,28 +18,20 @@
   <title></title>
 </head>
 <body>
-  <div>
+  <div class="container-fluid">
     <% if logged_in? %>
       <p>You are signed in as <%= current_user.email %></p>
       <form method="post" action="/logout">
         <button type="submit">Logout</button>
       </form>
     <% else %>
-      <p>Login here </p>
-      <form method="post" action="/login">
-        <p>
-          <label for="email">Email</label>
-          <input type="text" name="email" />
-        </p>
-        <p>
-          <label for="password">Password</label>
-          <input type="text" name="password" />
-        </p>
-        <button type="submit">Login</button>
-      </form>
+      <a href="/login">Login</a>
+      <a href="/signup">Sign Up</a>
     <% end %>
   </div>
-  <%= yield %>
+  <div class="container-fluid">
+    <%= yield %>
+  </div>
 </body>
 </html>
 
