@@ -1,28 +1,50 @@
-<h2>Song Details</h2>
+<h1>Song details</h1>
 
-  <p>
-    Song: <%= @song.title %>
-  </p>
- 
-  <p>
-    Author: <%= @song.author %>
-  </p>
-  
-  <% if @song.url.length > 0 %>
+<div>
+  <p>Title: <%= @song.title %></p>
+  <p>Author: <%= @song.author %></p>
+  <% if @song.url && @song.url.length > 0 %>
     <p>Url: <%= @song.url %></p>
-  <% end %> 
-  
+  <% end %>
   <% if @song.created_at %>
    <p>Created at: <%= @song.created_at %></p>
   <% end %>
- 
- 
-  <% if @other_songs.exists? %>
+</div>
+
+<% if @other_songs.any? %>
+  <div>
+    <h3>Other songs by <%= @song.author %></h3>
     <% @other_songs.each do |song| %>
-      <h3>Other songs from this author</h3>
       <p><a href="/songs/<%= song.id %>"><%= song.title %></a></p>
     <% end %>
-  <% end %>
-<hr/> 
+  </div>
+<% end %>
 
-<a href="/songs">Back to Song Wall</a>
+<% if logged_in? %>
+  <% if current_user.reviews.find_by(song_id: @song.id).nil? %>
+    <h3>Review This Song:</h3>
+    <form action="/reviews" method="post">
+      <p>
+        <input type="hidden" name="song_id" value="<%= @song.id %>" />
+        <label for="content">Content</label>
+        <textarea id="content" name="content" rows="5" columns="50" placeholder="Write a review"></textarea>
+      </p>
+      <button type="submit">Submit review</button>
+    </form>
+  <% end %>
+<% else %>
+  <p>Sign up or login to review this song!</p>
+<% end %>
+
+<% if @song.reviews.any? %>
+  <div>
+    <h3>Reviews for <%= @song.title %></h3>
+    <% @song.reviews.each do |review| %>
+      <p><%= review.content %></p>
+      <p>reviewed by <%= review.user.email %></p>
+    <% end %>
+  </div>
+<% end %>
+
+<a href="/songs">Back to all Songs</a>
+

@@ -12,18 +12,13 @@ get '/' do
   erb :index
 end
 
-get '/login' do
-  erb :'login/login'
-end
-
 post '/login' do
   user = User.find_by(email: params[:email], password: params[:password])
   if user
     session[:user_id] = user.id
     redirect '/songs'
   else
-    @login_error = 'Invalid email or password'
-    erb :'login/login'
+   redirect '/songs?login_error=Invalid email or password'
   end
 end
 
@@ -51,7 +46,7 @@ post '/signup' do
 end
 
 get '/songs' do
-  @songs = Song.joins("LEFT OUTER JOIN 'votes' ON songs.id = votes.song_id").group('songs.id').order('count(votes.id) DESC')
+  @songs = Song.joins("LEFT JOIN 'votes' ON songs.id = votes.song_id").group('songs.id').order('count(votes.id) DESC')
   erb :'songs/index'
 end
 
@@ -60,7 +55,7 @@ post '/songs' do
     title: params[:title], 
     author: params[:author], 
     url: params[:url],
-    user_id: session[:user_id]
+    user_id: current_user.id
   )
   if @song.save
     redirect '/songs'
@@ -84,12 +79,27 @@ post '/votes' do
   song_id = params[:song_id].to_i
   @vote = Vote.new(
     song_id: song_id,
-    user_id: session[:user_id]
+    user_id: current_user.id
   )
   if @vote.save
     redirect '/songs'
   else
     redirect '/songs?vote_error=Cannot vote twice for the same song'
+  end
+end
+
+post '/reviews' do
+  content_type :json
+  content = params[:content]
+  song_id = params[:song_id].to_i
+  @review = Review.new(
+    song_id: song_id,
+    user_id: session[:user_id],
+    content: content
+  )
+
+  if @review.save
+    redirect '/songs'
   end
 end
 
