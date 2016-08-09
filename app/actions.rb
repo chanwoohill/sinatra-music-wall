@@ -1,11 +1,31 @@
 # Homepage (Root path)
+
+def logged_in? 
+  !!current_user
+end 
+
+def current_user
+  User.find_by(id: session[:user_id])
+end 
+
 get '/' do
   erb :index
 end
 
-get '/login' do
-   erb :'login/login'
- end
+post '/login' do
+  user = User.find_by(email: params[:email], password: params[:password])
+  if user
+    session[:user_id] = user.id
+    redirect '/songs'
+  else
+    redirect '/songs'
+  end
+end
+
+post '/logout' do
+  session.clear
+  redirect '/songs'
+end
  
 get '/signup' do
   @user = User.new
@@ -22,6 +42,11 @@ post '/signup' do
   else
     erb :'login/signup'
   end
+end
+
+get '/logout' do
+  session[:user_id] = nil
+  redirect '/songs'
 end
 
 get '/songs' do 

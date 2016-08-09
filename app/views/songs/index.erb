@@ -1,7 +1,25 @@
 <h1>Song Wall</h1>
 <hr/>
 
+<% if @user %>
+  <div>
+    <p>You are signed in as <%= @user.email %></p>
+  </div>
+<% end %>
+
 <% @songs.each do |song| %>
+  <div class="song">
+    <h3>
+      <a href="songs/<%= song.id %>"><%= song.title %></a> by <%= song.author %>
+    </h3>
+    <form method="post" action="/votes">
+      <input type="hidden" name="song_id" value="<%= song.id %>" />
+      <input type="submit" value="Vote Up" />
+    </form>
+  </div>
+<% end %>
+
+<!--<% @songs.each do |song| %>
   <div class="song">
     <h3><%= song.title %></h3>
     <% if song.url %>
@@ -18,7 +36,8 @@
       </p>
     <% end %>
   </div>
-<% end %>
+<% end %>-->
 
 <a href='/songs/new'>Add a New Song</a>
+
 
