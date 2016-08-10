@@ -1,4 +1,9 @@
 $(document).ready(function() {
 
-  // See: http://docs.jquery.com/Tutorials:Introducing_$(document).ready()
+  // See: http://do
+  // cs.jquery.com/Tutorials:Introducing_$(document).ready()
+$("#input-id").rating();
+
+
+
 });

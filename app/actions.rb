@@ -1,12 +1,16 @@
 # Homepage (Root path)
 
-def logged_in?
-  session[:user_id]
-end
+helpers do 
 
-def current_user
-  User.find_by(id: session[:user_id])
-end
+  def current_user
+    @current_user ||= User.find_by(id: session[:user_id])
+  end
+
+  def logged_in?
+    session[:user_id]
+  end
+
+end 
 
 get '/' do
   erb :index
@@ -92,16 +96,25 @@ post '/reviews' do
   content_type :json
   content = params[:content]
   song_id = params[:song_id].to_i
+  rating = params[:rating].to_i
   @review = Review.new(
     song_id: song_id,
     user_id: session[:user_id],
+    rating: rating,
     content: content
   )
 
   if @review.save
-    redirect '/songs'
+    redirect "/songs/#{song_id}"
   end
 end
+
+post '/delete-reviews' do
+   review_id = params[:review_id]
+   song_id = params[:song_id]
+   Review.find(review_id).destroy
+   redirect "/songs/#{song_id}"
+end 
 
 
  

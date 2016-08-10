@@ -18,7 +18,7 @@
           <% if current_user.votes.find_by(song_id: song.id).nil? %>
             <input type="submit" value="Upvote" class="btn btn-primary" />
           <% else %>
-            <input type="button" value="Vote" class="btn btn-primary" disabled="disabled">
+            <input type="button" value="Voted" class="btn btn-primary" disabled="disabled">
           <% end %>
         </form>
       </div>
